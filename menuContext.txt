@@ -1,0 +1,61 @@
+java file -1
+public class Main2Activity extends AppCompatActivity {
+Button button ;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super .onCreate(savedInstanceState);
+setContentView(R.layout. activity_main2 );
+button = (Button)findViewById(R.id. button );
+button .setOnClickListener( new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+Intent i = new
+Intent(getApplicationContext(),Main3Activity. class );
+startActivity(i);
+}
+});
+}
+}
+
+
+
+
+java file -2
+public class Main3Activity extends AppCompatActivity {
+ListView listView ;
+String movie [] = { "Thor" , "IronMan" , "AntMan" , "Captain America" , "Marvel" };
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super .onCreate(savedInstanceState);
+setContentView(R.layout. activity_main3 );
+listView = findViewById(R.id. list1 );
+ArrayAdapter<String> adapter = new
+ArrayAdapter<String>( this ,android.R.layout. simple_list_item_1 , movie );
+listView .setAdapter(adapter);
+registerForContextMenu( listView );
+}
+@Override
+public void onCreateContextMenu(ContextMenu menu, View v,
+ContextMenu.ContextMenuInfo menuInfo) {
+super .onCreateContextMenu(menu, v, menuInfo);
+MenuInflater inflater = getMenuInflater();
+inflater.inflate(R.menu. menu_example ,menu);
+menu.setHeaderTitle( "Select the Action " );
+}
+@Override
+public boolean onContextItemSelected(MenuItem item) {
+if (item.getItemId()==R.id. cut )
+Toast. makeText (getApplicationContext(), "CUT is selected" ,
+Toast. LENGTH_SHORT ).show();
+else if (item.getItemId()==R.id. copy )
+Toast. makeText (getApplicationContext(), "COPY is selected" ,
+Toast. LENGTH_SHORT ).show();
+else if (item.getItemId()==R.id. paste )
+Toast. makeText (getApplicationContext(), "PASTE is selected" ,
+Toast. LENGTH_SHORT ).show();
+else
+Toast. makeText (getApplicationContext(), "EXIT is selected" ,
+Toast. LENGTH_SHORT ).show();
+return super .onContextItemSelected(item);
+}
+}

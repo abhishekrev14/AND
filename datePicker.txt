@@ -1,0 +1,66 @@
+<? xml version= "1.0" encoding= "utf-8" ?>
+< RelativeLayout
+xmlns: android = "http://schemas.android.com/apk/res/android"
+xmlns: app = "http://schemas.android.com/apk/res-auto"
+xmlns: tools = "http://schemas.android.com/tools"
+android :layout_width= "match_parent"
+android :layout_height= "match_parent"
+tools :context= ".MainActivity" >
+< DatePicker
+android :id= "@+id/datepicker"
+android :layout_width= "wrap_content"
+android :layout_height= "317dp"
+android :layout_centerHorizontal= "true"
+android :layout_marginTop= "10dp"
+tools :endYear= "2019"
+tools :startYear= "2000" />
+< TextView
+android :id= "@+id/textView1"
+android :layout_width= "wrap_content"
+android :layout_height= "wrap_content"
+android :layout_alignParentBottom= "true"
+android :layout_centerHorizontal= "true"
+android :layout_marginBottom= "139dp"
+android :textSize= "25sp" />
+< Button
+android :id= "@+id/button"
+android :layout_width= "wrap_content"
+android :layout_height= "wrap_content"
+android :layout_alignParentBottom= "true"
+android :layout_centerHorizontal= "true"
+android :layout_marginBottom= "69dp"
+android :text= "@string/submit" />
+</ RelativeLayout >
+
+
+
+
+
+
+public class MainActivity extends AppCompatActivity {
+DatePicker dp ;
+TextView tv ;
+Button btn ;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super .onCreate(savedInstanceState);
+setContentView(R.layout. activity_main );
+tv = (TextView)findViewById(R.id. textView1 );
+dp = (DatePicker)findViewById(R.id. datepicker );
+btn = (Button)findViewById(R.id. button );
+tv .setText( "Current Date -> " +getCurrentDate());
+btn .setOnClickListener( new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+tv .setText( "Change Date -> " +getCurrentDate());
+}
+});
+}
+public String getCurrentDate() {
+StringBuilder builder = new StringBuilder();
+builder.append( dp .getDayOfMonth()+ "/" );
+builder.append(( dp .getMonth()+ 1 )+ "/" );
+builder.append( dp .getYear());
+return builder.toString();
+}
+}

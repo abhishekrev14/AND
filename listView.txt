@@ -1,0 +1,61 @@
+package listview.example.com.listview;  
+  
+import android.support.v7.app.AppCompatActivity;  
+import android.os.Bundle;  
+import android.view.View;  
+import android.widget.AdapterView;  
+import android.widget.ArrayAdapter;  
+import android.widget.ListView;  
+import android.widget.TextView;  
+import android.widget.Toast;  
+  
+public class MainActivity extends AppCompatActivity {  
+    ListView listView;    
+    String[] weekdays=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];  
+    @Override  
+    protected void onCreate(Bundle savedInstanceState) {  
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.activity_main);  
+  
+        listView=(ListView)findViewById(R.id.listView);  
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,  
+                android.R.layout.simple_list_item_1, weekdays);  
+        listView.setAdapter(adapter);  
+  	listVoew.setOnItemClicklistener(this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
+            @Override  
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {  
+                String value=adapter.getItem(position);
+		if(value==0)  
+                {
+		Toast.makeText(getApplicationContext(),"sunday is selected",Toast.LENGTH_SHORT).show();
+		}
+		if(value==1)  
+                {
+		Toast.makeText(getApplicationContext(),"monday is selected",Toast.LENGTH_SHORT).show();
+		}
+		if(value==2)  
+                {
+		Toast.makeText(getApplicationContext(),"tuesday is selected",Toast.LENGTH_SHORT).show();
+		}
+		if(value==3)  
+                {
+		Toast.makeText(getApplicationContext(),"wednesday is selected",Toast.LENGTH_SHORT).show();
+		}
+		if(value==4)  
+                {
+		Toast.makeText(getApplicationContext(),"thursday is selected",Toast.LENGTH_SHORT).show();
+		}
+		if(value==5)  
+                {
+		Toast.makeText(getApplicationContext(),"friday is selected",Toast.LENGTH_SHORT).show();
+		}  
+		if(value==6)  
+                {
+		Toast.makeText(getApplicationContext(),"saturday is selected",Toast.LENGTH_SHORT).show();
+		}
+  
+            }  
+        });  
+    }  
+}

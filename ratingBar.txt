@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"  
+    xmlns:app="http://schemas.android.com/apk/res-auto"  
+    xmlns:tools="http://schemas.android.com/tools"  
+    android:layout_width="match_parent"  
+    android:layout_height="match_parent"  
+    tools:context="example.javatpoint.com.ratingbar.MainActivity">  
+  
+    <Button  
+        android:layout_width="wrap_content"  
+        android:layout_height="wrap_content"  
+        android:text="submit"  
+        android:id="@+id/button"  
+        app:layout_constraintBottom_toBottomOf="parent"  
+        app:layout_constraintLeft_toLeftOf="parent"  
+        app:layout_constraintRight_toRightOf="parent"  
+        app:layout_constraintTop_toTopOf="parent"  
+        app:layout_constraintVertical_bias="0.615" />  
+  
+    <RatingBar  
+        android:id="@+id/ratingBar"  
+        android:layout_width="wrap_content"  
+        android:layout_height="wrap_content"  
+        android:layout_marginLeft="72dp"  
+        android:layout_marginTop="60dp"  
+        app:layout_constraintStart_toStartOf="parent"  
+        app:layout_constraintTop_toTopOf="parent" />  
+  
+</android.support.constraint.ConstraintLayout>  
+
+
+
+
+
+package example.javatpoint.com.ratingbar;  
+  
+import android.support.v7.app.AppCompatActivity;  
+import android.os.Bundle;  
+import android.view.View;  
+import android.widget.Button;  
+import android.widget.RatingBar;  
+import android.widget.Toast;  
+  
+public class MainActivity extends AppCompatActivity {  
+    RatingBar ratingbar;  
+    Button button;  
+    @Override  
+    protected void onCreate(Bundle savedInstanceState) {  
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.activity_main);  
+        addListenerOnButtonClick();  
+    }  
+    public void addListenerOnButtonClick(){  
+        ratingbar=(RatingBar)findViewById(R.id.ratingBar);  
+        button=(Button)findViewById(R.id.button);  
+        //Performing action on Button Click  
+        button.setOnClickListener(new View.OnClickListener(){  
+  
+            @Override  
+            public void onClick(View arg0) {  
+                //Getting the rating and displaying it on the toast  
+                String rating=String.valueOf(ratingbar.getRating());  
+                Toast.makeText(getApplicationContext(), rating, Toast.LENGTH_LONG).show();  
+            }  
+  
+        });  
+    }  
+}

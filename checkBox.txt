@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="35dp"
+            android:textColor="#21b3db"
+            android:text="Menu" />
+
+        <CheckBox
+            android:id="@+id/cb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pizza"
+            android:textColor="#CE1717"
+            android:textSize="25dp" />
+
+        <CheckBox
+            android:id="@+id/cb2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Frankie"
+            android:textColor="#CE1717"
+            android:textSize="25dp" />
+
+        <CheckBox
+            android:id="@+id/cb3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PavBhaji"
+            android:textColor="#CE1717"
+            android:textSize="25dp" />
+
+        <CheckBox
+            android:id="@+id/cb4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Noodles"
+            android:textColor="#CE1717"
+            android:textSize="25dp" />
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#f5b498"
+            android:text="Order" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+package com.example.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    CheckBox Pizza, Frankie, PavBhaji, Noodles;
+    Button btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        addListenerOnButtonClick();
+    }
+
+    private void addListenerOnButtonClick() {
+        Pizza = (CheckBox) findViewById(R.id.cb1);
+        Frankie = (CheckBox) findViewById(R.id.cb2);
+        PavBhaji = (CheckBox) findViewById(R.id.cb3);
+        Noodles = (CheckBox) findViewById(R.id.cb4);
+        btn = (Button) findViewById(R.id.btn);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int totalamount = 0;
+                StringBuilder result = new StringBuilder();
+                result.append("Selected Items: ");
+                if (Pizza.isChecked()) {
+                    result.append("\n Pizza --> 500");
+                    totalamount += 500;
+                }
+                if (Frankie.isChecked()) {
+                    result.append("\n Frankie --> 150");
+                    totalamount += 150;
+                }
+                if (PavBhaji.isChecked()) {
+                    result.append("\n PavBhaji --> 200");
+                    totalamount += 200;
+                }
+                if (Noodles.isChecked()) {
+                    result.append("\n Noodles --> 400");
+                    totalamount += 400;
+                }
+                result.append("\n Total: Rs." + totalamount);
+                Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}

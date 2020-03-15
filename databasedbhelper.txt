@@ -1,0 +1,134 @@
+package com.example.databaseapp;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
+public class DBHelper extends SQLiteOpenHelper {
+
+    public static final String Database_name= "student.db";
+    public static final String Table_name= "sycs";
+    public static final String col_1= "id";
+    public static final String col_2= "name";
+    public static final String col_3= "class";
+    public static final String col_4= "marks";
+    public DBHelper(@Nullable Context context) {
+        super(context, Database_name, null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create table "+Table_name+"(id integer primary key autoincrement,name text,class text, marks integer)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table if exists "+Table_name);
+        onCreate(db);
+    }
+
+    public boolean insertdata(String name,String class1,String marks){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(col_2,name);
+        contentValues.put(col_3,class1);
+        contentValues.put(col_4,marks);
+        long result = db.insert(Table_name,null,contentValues);
+        if (result==-1)
+            return false;
+        else
+            return true;
+    }
+
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+Table_name,null);
+        return res;
+    }
+}
+
+
+
+
+
+
+
+package com.example.databaseapp;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    DBHelper mydb;
+    EditText etroll,etname,etclass,etmarks;
+    Button btnsave,btnretrieve;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mydb = new DBHelper(this);
+        etroll = findViewById(R.id.editTextroll);
+        etname = findViewById(R.id.editTextname);
+        etclass = findViewById(R.id.editTextclass);
+        etmarks = findViewById(R.id.editTextmarks);
+        btnsave = findViewById(R.id.buttonsave);
+        btnretrieve = findViewById(R.id.buttonretrieve);
+        addData();
+        displayData();
+    }
+
+    public void displayData() {
+        btnretrieve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor res = mydb.getData();
+                if (res.getCount() == 0){
+                    showMessage("Error","Nothing is found");
+                    return;
+                }
+                StringBuffer buffer = new StringBuffer();
+                while (res.moveToNext()){
+                    buffer.append("Rollno "+res.getString(0)+"\n");
+                    buffer.append("Name "+res.getString(1)+"\n");
+                    buffer.append("Class "+res.getString(2)+"\n");
+                    buffer.append("Marks "+res.getString(3)+"\n");
+                }
+                showMessage("Data",buffer.toString());
+            }
+        });
+    }
+
+    public void showMessage(String title, String Message) {
+        AlertDialog.Builder builder= new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
+    }
+
+    public void addData() {
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isInserted = mydb.insertdata(etname.getText().toString(),etclass.getText().toString(),etmarks.getText().toString());
+                if (isInserted == true)
+                    Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(MainActivity.this, "Data not inserted", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}

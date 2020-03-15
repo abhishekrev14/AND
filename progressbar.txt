@@ -1,0 +1,99 @@
+<? xml version= "1.0" encoding= "utf-8" ?>
+< RelativeLayout xmlns: android = "http://schemas.android.com/apk/res/android"
+xmlns: app = "http://schemas.android.com/apk/res-auto"
+xmlns: tools = "http://schemas.android.com/tools"
+android :layout_width= "match_parent"
+android :layout_height= "match_parent"
+tools :context= ".MainActivity" >
+< Button
+android :id= "@+id/button"
+android :layout_width= "wrap_content"
+android :layout_height= "wrap_content"
+android :layout_alignParentTop= "true"
+android :layout_centerHorizontal= "true"
+android :layout_marginTop= "208dp"
+android :text= "@string/button"
+android :textSize= "25sp" />
+</ RelativeLayout >
+
+
+
+
+
+public class MainActivity extends AppCompatActivity {
+Button button ;
+ProgressDialog pd ;
+private int progressbarstatus = 0 ;
+private Handler progressbarhandler = new Handler();
+private long filesize = 0 ;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super .onCreate(savedInstanceState);
+setContentView(R.layout. activity_main );
+addListenerOnButtonClick();
+}
+private void addListenerOnButtonClick() {
+button = (Button)findViewById(R.id. button );
+button .setOnClickListener( new View.OnClickListener() {
+@Override
+public void onClick(View view) {
+//create progress bar
+pd = new ProgressDialog(view.getContext());
+pd .setCancelable( true );
+pd .setMessage( "File Downloading...." );
+pd .setProgressStyle(ProgressDialog. STYLE_HORIZONTAL );
+pd .setProgress( 0 );
+pd .setMax( 100 );
+pd .show();
+//reset
+progressbarstatus = 0 ;
+filesize = 0 ;
+new Thread( new Runnable() {
+@Override
+public void run() {
+while ( progressbarstatus < 100 ){
+progressbarstatus = doOperation();
+try {
+Thread. sleep ( 1000 );
+}
+catch (InterruptedException ie){
+ie.printStackTrace();
+}
+progressbarhandler .post( new Runnable() {
+@Override
+public void run() {
+pd .setProgress( progressbarstatus );
+}
+});
+}
+if ( progressbarstatus >= 100 ){
+try {
+Thread. sleep ( 1000 );
+}
+catch (InterruptedException ie){
+ie.printStackTrace();
+}
+pd .dismiss();
+}
+}
+}).start();
+} //end of onclick method
+});
+}
+public int doOperation(){
+while ( filesize <= 10000 ){
+filesize ++;
+if ( filesize == 1000 )
+return 10 ;
+if ( filesize == 2000 )
+return 30 ;
+if ( filesize == 3000 )
+return 50 ;
+if ( filesize == 5000 )
+return 70 ;
+if ( filesize == 7000 )
+return 80 ;
+}
+return 100 ;
+}
+}
